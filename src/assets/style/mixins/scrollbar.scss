@@ -1,0 +1,14 @@
+@use '../var.scss' as *;
+
+@mixin scrollbar($width: 6px, $color: var(--color-scrollbar-thumb)) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 5px;
+    border-radius: 3px;
+    background-color: $color;
+    border: 0;
+  }
+}

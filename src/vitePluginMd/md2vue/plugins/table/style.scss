@@ -1,0 +1,32 @@
+@use '@/assets/style/mixins/scrollbar.scss' as *;
+
+.markdown-container {
+  .md-table-container {
+    width: 100%;
+    overflow-x: auto;
+    @include scrollbar();
+    table {
+      margin-top: 0;
+      border-spacing: 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow: auto;
+      thead {
+        tr {
+          background-color: var(--bgc-table-header);
+        }
+      }
+      tr {
+        border-top: 1px solid var(--border-color);
+      }
+      th,
+      td {
+        padding: 6px 13px;
+        border: 1px solid var(--border-color);
+      }
+      th {
+        min-width: 60px;
+      }
+    }
+  }
+}
