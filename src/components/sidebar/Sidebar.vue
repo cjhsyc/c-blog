@@ -1,10 +1,10 @@
 <!-- 侧边导航菜单 -->
 <template>
-  <el-scrollbar class="sidebar">
+  <div class="sidebar">
     <el-menu class="menu" router :default-active="currPath">
       <SubmenuList :submenu-list="currSubMenuList"></SubmenuList>
     </el-menu>
-  </el-scrollbar>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -17,9 +17,10 @@ const { currPath, currSubMenuList } = useMenu()
 <style scoped lang="scss">
 .sidebar {
   border-right: 1px solid var(--border-color);
+  width: 100%;
   .menu {
     border: unset;
-    width: 230px;
+    width: 100%;
   }
 }
 </style>

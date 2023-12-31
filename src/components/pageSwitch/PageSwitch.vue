@@ -5,7 +5,7 @@
       <el-button
         v-show="prevMenuItem"
         type="primary"
-        :icon="Right"
+        :icon="ArrowLeftBold"
         text
         size="large"
         @click="handleClick(prevMenuItem?.path)"
@@ -22,14 +22,14 @@
         @click="handleClick(nextMenuItem?.path)"
       >
         <span class="title next-title">{{ nextMenuItem?.menuName }}</span>
-        <el-icon style="margin-left: 5px" :size="14"><Right /></el-icon>
+        <el-icon style="margin-left: 5px" :size="14"><ArrowRightBold /></el-icon>
       </el-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Right } from '@element-plus/icons-vue'
+import { ArrowRightBold, ArrowLeftBold } from '@element-plus/icons-vue'
 import { useMenu } from '@/hooks/menu'
 import type { MenuListItem } from '@/types/menu'
 

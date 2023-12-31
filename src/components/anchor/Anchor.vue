@@ -23,6 +23,7 @@
 <script setup lang="ts">
 import { useAnchor } from '@/hooks/anchor'
 import { tags } from './const'
+import type { ScrollbarInstance } from 'element-plus'
 
 const props = defineProps({
   /** 不显示为锚点的h标签 */
@@ -44,12 +45,19 @@ const anchors = computed(() =>
 )
 const showTags = computed(() => tags.filter((tag) => !props.filterTags.includes(tag)))
 
+const layoutRef = inject<Ref<ScrollbarInstance>>('layoutRef')
+
 /** 点击跳转至对应的锚点 */
 const handleClick = (slug: string) => {
   markerRef.value && (markerRef.value.style.top = `${itemRefs.value[slug].offsetTop}px`)
   currAnchorSlug.value = slug
   const dom = document.getElementById(slug)
-  dom?.scrollIntoView({ behavior: 'smooth' })
+  if (layoutRef && dom) {
+    layoutRef.value.wrapRef?.scrollTo({
+      top: dom.offsetTop,
+      behavior: 'smooth'
+    })
+  }
 }
 
 const getPaddingLeft = (tag: string) => {
@@ -65,7 +73,6 @@ watch(currAnchors, () => {
 
 <style scoped lang="scss">
 .anchor {
-  box-sizing: border-box;
   padding: 0 10px;
   position: relative;
   .anchor-title {
@@ -76,19 +83,18 @@ watch(currAnchors, () => {
     cursor: pointer;
     font-size: smaller;
     margin-top: 6px;
-    color: var(--text-3);
     &.anchor-item-active {
-      color: var(--el-color-primary);
+      color: var(--primary);
     }
     &:hover {
-      color: var(--el-color-primary);
+      color: var(--primary);
     }
   }
   .marker {
     width: 4px;
     border-radius: 2px;
     height: 16px;
-    background-color: var(--el-color-primary);
+    background-color: var(--primary);
     position: absolute;
     left: 0;
     top: 0;

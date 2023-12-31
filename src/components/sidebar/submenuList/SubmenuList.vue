@@ -42,7 +42,6 @@ defineProps({
   height: auto;
   padding-top: 10px;
   padding-bottom: 10px;
-  box-sizing: border-box;
   .menu-item-text {
     white-space: wrap;
     line-height: 1.4em;

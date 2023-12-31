@@ -43,18 +43,19 @@ watch(
   padding: 1rem;
   font-size: 1.1rem;
   border-bottom: 1px solid var(--border-color);
-  box-sizing: border-box;
   height: var(--navbar-height);
+  background-color: rgba(255, 255, 255, 1);
+  // backdrop-filter: blur(10px);
   .menu {
     display: flex;
     gap: 2rem;
     .menu-item {
       cursor: pointer;
       &:hover {
-        color: var(--el-color-primary);
+        color: var(--primary);
       }
       &.active {
-        color: var(--el-color-primary);
+        color: var(--primary);
       }
     }
   }

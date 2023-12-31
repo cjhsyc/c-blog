@@ -1,7 +1,13 @@
 :root {
-  --color-scrollbar-thumb: #dcdee5;
-  --bgc-code-inline: rgba(175, 184, 193, 0.2);
-  --bgc-table-header: #f5f9fc;
-  --border-color: #eee;
+  --primary: var(--el-color-primary);
+  --scrollbar-thumb-color: rgb(144 147 153 / 30%);
+  --bgc-code: var(--el-fill-color-lighter);
+  --bgc-table-header: var(--el-fill-color);
+  --border-color: var(--el-border-color);
+  --text-color: var(--el-text-color-primary);
+
   --navbar-height: 50px;
+
+  --code-font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono,
+    monospace;
 }

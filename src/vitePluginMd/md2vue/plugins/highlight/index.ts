@@ -1,18 +1,23 @@
 // 代码高亮
 import markdownIt from 'markdown-it'
 import hljs from 'highlight.js'
+import { store } from '../../store'
 
 export const highlight = (str: string, lang: string, md: markdownIt) => {
+  if (!store.importStrObj[store.currFile]) {
+    store.importStrObj[store.currFile] = new Set()
+  }
+  store.importStrObj[store.currFile].add('import CodeBlock from "@/components/codeBlock/CodeBlock.vue"')
   if (lang === 'vue') {
     lang = 'html'
   }
   if (lang && hljs.getLanguage(lang)) {
     return (
-      '<pre><code class="hljs">' +
+      '<CodeBlock>' +
       hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
-      '</code></pre>'
+      '</CodeBlock>'
     )
   }
   // md.utils.escapeHtml: 会转义这四个字符: & < > "
-  return '<pre><code class="hljs">' + md.utils.escapeHtml(str) + '</code></pre>'
+  return '<CodeBlock>' + md.utils.escapeHtml(str) + '</CodeBlock>'
 }

@@ -1,6 +1,6 @@
 @use '../var.scss' as *;
 
-@mixin scrollbar($width: 6px, $color: var(--color-scrollbar-thumb)) {
+@mixin scrollbar($width: 6px, $color: var(--scrollbar-thumb-color)) {
   &::-webkit-scrollbar {
     width: $width;
     height: $width;

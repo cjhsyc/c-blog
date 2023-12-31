@@ -1,25 +1,23 @@
 <template>
-  <div class="default-layout">
-    <navbar></navbar>
+  <el-scrollbar class="default-layout" ref="layoutRef">
+    <navbar class="navbar"></navbar>
     <div class="main">
-      <sidebar></sidebar>
-      <el-scrollbar class="scrollbar" ref="scrollbarRef">
-        <div class="container" :class="{ 'no-side': !showAnchor }">
-          <div class="content">
-            <div class="markdown-content">
-              <RouterView />
-            </div>
-            <div class="footer">
-              <PageSwitch />
-            </div>
+      <sidebar class="sidebar"></sidebar>
+      <div class="container" :class="{ 'no-side': !showAnchor }">
+        <div class="content">
+          <div class="markdown-content">
+            <RouterView />
           </div>
-          <el-scrollbar v-if="showAnchor" class="side" max-height="calc(var(--main-height) - 80px)">
-            <Anchor />
-          </el-scrollbar>
+          <div class="footer">
+            <PageSwitch />
+          </div>
         </div>
-      </el-scrollbar>
+        <el-scrollbar v-if="showAnchor" class="side" max-height="calc(var(--main-height) - 80px)">
+          <Anchor />
+        </el-scrollbar>
+      </div>
     </div>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script setup lang="ts">
@@ -29,7 +27,7 @@ import PageSwitch from '@/components/pageSwitch/PageSwitch.vue'
 import Anchor from '@/components/anchor/Anchor.vue'
 
 const showAnchor = ref(true)
-const scrollbarRef = ref()
+const layoutRef = ref()
 const route = useRoute()
 
 const handleResize = () => {
@@ -52,50 +50,60 @@ onUnmounted(() => {
 watch(
   () => route.path,
   () => {
-    scrollbarRef.value?.scrollTo(0, 0)
+    layoutRef.value?.scrollTo(0, 0)
   }
 )
+
+provide('layoutRef', layoutRef)
 </script>
 
 <style scoped lang="scss">
 .default-layout {
   height: 100vh;
+  .navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
   .main {
-    --main-height: calc(100vh - var(--navbar-height));
-    height: var(--main-height);
     display: flex;
-    .scrollbar {
-      height: 100%;
-      flex: 1;
-      .container {
+    --sidebar-width: 230px;
+    .sidebar {
+      width: var(--sidebar-width);
+      position: sticky;
+      top: var(--navbar-height);
+      height: calc(100vh - var(--navbar-height));
+      z-index: 1;
+    }
+    .container {
+      width: calc(100% - var(--sidebar-width));
+      display: flex;
+      position: relative;
+      --content-padding-right: 200px;
+      &.no-side {
+        --content-padding-right: 0;
+      }
+      .content {
+        width: 100%;
+        min-height: calc(100vh - var(--navbar-height));
         display: flex;
-        position: relative;
-        --content-padding-right: 200px;
-        &.no-side {
-          --content-padding-right: 0;
+        flex-direction: column;
+        padding-right: var(--content-padding-right);
+        .markdown-content {
+          flex: 1 0 auto;
         }
-        .content {
-          min-height: var(--main-height);
-          display: flex;
-          flex-direction: column;
-          padding-right: var(--content-padding-right);
-          width: 100%;
-          box-sizing: border-box;
-          .markdown-content {
-            flex: 1 0 auto;
-          }
-          .footer {
-            flex-shrink: 0;
-            padding: 0 10px 10px;
-          }
+        .footer {
+          flex-shrink: 0;
+          padding: 0 30px 30px;
         }
-        .side {
-          --side-width: 180px;
-          position: fixed;
-          top: 80px;
-          right: calc((var(--content-padding-right) - var(--side-width)));
-          width: var(--side-width);
-        }
+      }
+      .side {
+        --side-width: 180px;
+        position: fixed;
+        top: calc(var(--navbar-height) + 30px);
+        right: calc((var(--content-padding-right) - var(--side-width)));
+        width: var(--side-width);
       }
     }
   }

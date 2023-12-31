@@ -1,5 +1,7 @@
 <template>
-  <el-link class="md-link" type="primary" @click="handleClick"><slot /></el-link>
+  <el-link class="md-link" type="primary" @click="handleClick">
+    <slot />
+  </el-link>
 </template>
 
 <script setup lang="ts">
