@@ -29,24 +29,32 @@ const handleCopy = () => {
 
 .code-block {
   position: relative;
-  pre .hljs {
-    border-radius: 4px;
+  border-radius: 4px;
+  overflow: hidden;
+  pre {
+    margin: 0;
+    .hljs {
     font-family: var(--code-font-family);
     background-color: var(--bgc-code);
     color: var(--text-color);
     @include scrollbar();
   }
+  }
   .copy {
     display: none;
     position: absolute;
-    right: 16px;
-    top: 16px;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    top: 0;
     cursor: pointer;
     background-color: var(--bgc-code);
   }
   &:hover {
     .copy {
-      display: block;
+      display: flex;
     }
   }
 }

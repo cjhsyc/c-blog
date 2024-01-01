@@ -4,7 +4,9 @@
     <div
       v-for="anchor in anchors"
       :key="anchor.slug"
-      :ref="(el) => (itemRefs[anchor.slug] = el)"
+      :ref="
+        (el) => (el ? (itemRefs[anchor.slug] = el as HTMLDivElement) : delete itemRefs[anchor.slug])
+      "
       class="anchor-item"
       :class="{
         'anchor-item-active': anchor.slug === currAnchorSlug
@@ -24,6 +26,7 @@
 import { useAnchor } from '@/hooks/anchor'
 import { tags } from './const'
 import type { ScrollbarInstance } from 'element-plus'
+import type { AnchorTagName } from '@/types/anchor'
 
 const props = defineProps({
   /** 不显示为锚点的h标签 */
@@ -33,7 +36,7 @@ const props = defineProps({
   }
 })
 
-const itemRefs = ref<Record<string, any>>({})
+const itemRefs = ref<Record<string, HTMLDivElement | null>>({})
 const markerRef = ref<HTMLDivElement>()
 // 当前页面锚点数据
 const { currAnchors } = useAnchor()
@@ -48,9 +51,9 @@ const showTags = computed(() => tags.filter((tag) => !props.filterTags.includes(
 const layoutRef = inject<Ref<ScrollbarInstance | undefined>>('layoutRef')
 
 const setCurrAnchorSlug = (slug: string) => {
-  if (markerRef.value) {
-    markerRef.value.style.top = `${itemRefs.value[slug].offsetTop}px`
+  if (markerRef.value && itemRefs.value[slug]) {
     currAnchorSlug.value = slug
+    markerRef.value.style.top = `${itemRefs.value[slug]!.offsetTop}px`
   }
 }
 
@@ -69,6 +72,9 @@ const getPaddingLeft = (tag: string) => {
   return `${(showTags.value.findIndex((showTag) => showTag === tag) || 0) * 8}px`
 }
 
+/** 排序值 */
+const anchorsSortNum = ref<Record<string, number>>({})
+/** 可见的锚点 */
 const intersectingAnchors = ref<string[]>([])
 
 const intersectionObserver = new IntersectionObserver((entries) => {
@@ -77,29 +83,38 @@ const intersectionObserver = new IntersectionObserver((entries) => {
     !entry.isIntersecting &&
       (intersectingAnchors.value = intersectingAnchors.value.filter((id) => id !== entry.target.id))
   })
+  intersectingAnchors.value.sort((a, b) => anchorsSortNum.value[a] - anchorsSortNum.value[b])
   const slug = intersectingAnchors.value[0]
   slug && setCurrAnchorSlug(slug)
 })
 
-const resetObserver = () => {
-  intersectionObserver.disconnect()
+/** 设置Observer监听的dom */
+const setObserver = () => {
+  intersectingAnchors.value = []
+  anchorsSortNum.value = {}
   const domList = document.querySelectorAll('.md-anchor')
-  domList.forEach((dom) => {
-    intersectionObserver.observe(dom)
+  domList.forEach((dom, index) => {
+    if (showTags.value.includes(dom.tagName.toLowerCase() as AnchorTagName)) {
+      intersectionObserver.observe(dom)
+      anchorsSortNum.value[dom.id] = index
+    }
   })
 }
 
-// 切换页面后，重置锚点选中状态
+// 切换页面后
 watch(currAnchors, () => {
+  // 重置锚点选中状态
   currAnchorSlug.value = ''
   markerRef.value && (markerRef.value.style.top = '0px')
+  // 重置Observer监听的锚点dom
+  intersectionObserver.disconnect()
   nextTick(() => {
-    resetObserver()
+    setObserver()
   })
 })
 
 onMounted(() => {
-  resetObserver()
+  setObserver()
 })
 
 onUnmounted(() => {
