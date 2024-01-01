@@ -6,6 +6,8 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import Icons from 'unplugin-icons/vite'
+import { FileSystemIconLoader } from 'unplugin-icons/loaders'
 
 import Markdown from './src/vitePluginMd'
 import Pages from 'vite-plugin-pages'
@@ -31,6 +33,11 @@ export default defineConfig({
       dirs: [], // 覆盖默认值 ['src/components']
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/], // 注：md中的组件自动导入在打包后不生效
       resolvers: [ElementPlusResolver()]
+    }),
+    Icons({
+      customCollections: {
+        c: FileSystemIconLoader('./src/assets/icons', (svg) => svg.replace(/fill=".+?"/g, ''))
+      }
     }),
     Markdown(),
     Pages({
