@@ -2,7 +2,7 @@
 <template>
   <div class="sidebar">
     <el-menu class="menu" router :default-active="currPath">
-      <SubmenuList :submenu-list="currSubMenuList"></SubmenuList>
+      <SubmenuList :submenu-list="menuList"></SubmenuList>
     </el-menu>
   </div>
 </template>
@@ -11,7 +11,7 @@
 import { useMenu } from '@/hooks/menu'
 import SubmenuList from './submenuList/SubmenuList.vue'
 
-const { currPath, currSubMenuList } = useMenu()
+const { currPath, menuList } = useMenu()
 </script>
 
 <style scoped lang="scss">

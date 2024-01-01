@@ -45,14 +45,19 @@ const anchors = computed(() =>
 )
 const showTags = computed(() => tags.filter((tag) => !props.filterTags.includes(tag)))
 
-const layoutRef = inject<Ref<ScrollbarInstance>>('layoutRef')
+const layoutRef = inject<Ref<ScrollbarInstance | undefined>>('layoutRef')
+
+const setCurrAnchorSlug = (slug: string) => {
+  if (markerRef.value) {
+    markerRef.value.style.top = `${itemRefs.value[slug].offsetTop}px`
+    currAnchorSlug.value = slug
+  }
+}
 
 /** 点击跳转至对应的锚点 */
 const handleClick = (slug: string) => {
-  markerRef.value && (markerRef.value.style.top = `${itemRefs.value[slug].offsetTop}px`)
-  currAnchorSlug.value = slug
   const dom = document.getElementById(slug)
-  if (layoutRef && dom) {
+  if (layoutRef?.value && dom) {
     layoutRef.value.wrapRef?.scrollTo({
       top: dom.offsetTop,
       behavior: 'smooth'
@@ -64,10 +69,41 @@ const getPaddingLeft = (tag: string) => {
   return `${(showTags.value.findIndex((showTag) => showTag === tag) || 0) * 8}px`
 }
 
+const intersectingAnchors = ref<string[]>([])
+
+const intersectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    entry.isIntersecting && intersectingAnchors.value.push(entry.target.id)
+    !entry.isIntersecting &&
+      (intersectingAnchors.value = intersectingAnchors.value.filter((id) => id !== entry.target.id))
+  })
+  const slug = intersectingAnchors.value[0]
+  slug && setCurrAnchorSlug(slug)
+})
+
+const resetObserver = () => {
+  intersectionObserver.disconnect()
+  const domList = document.querySelectorAll('.md-anchor')
+  domList.forEach((dom) => {
+    intersectionObserver.observe(dom)
+  })
+}
+
 // 切换页面后，重置锚点选中状态
 watch(currAnchors, () => {
   currAnchorSlug.value = ''
   markerRef.value && (markerRef.value.style.top = '0px')
+  nextTick(() => {
+    resetObserver()
+  })
+})
+
+onMounted(() => {
+  resetObserver()
+})
+
+onUnmounted(() => {
+  intersectionObserver.disconnect()
 })
 </script>
 

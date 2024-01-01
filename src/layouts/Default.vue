@@ -12,7 +12,7 @@
             <PageSwitch />
           </div>
         </div>
-        <el-scrollbar v-if="showAnchor" class="side" max-height="calc(var(--main-height) - 80px)">
+        <el-scrollbar v-if="showAnchor" class="side">
           <Anchor />
         </el-scrollbar>
       </div>
@@ -25,9 +25,10 @@ import Navbar from '@/components/navbar/Navbar.vue'
 import Sidebar from '@/components/sidebar/Sidebar.vue'
 import PageSwitch from '@/components/pageSwitch/PageSwitch.vue'
 import Anchor from '@/components/anchor/Anchor.vue'
+import type { ScrollbarInstance } from 'element-plus'
 
 const showAnchor = ref(true)
-const layoutRef = ref()
+const layoutRef = ref<ScrollbarInstance>()
 const route = useRoute()
 
 const handleResize = () => {
@@ -104,6 +105,7 @@ provide('layoutRef', layoutRef)
         top: calc(var(--navbar-height) + 30px);
         right: calc((var(--content-padding-right) - var(--side-width)));
         width: var(--side-width);
+        height: calc(100vh - var(--navbar-height) - 60px);
       }
     }
   }
