@@ -1,5 +1,10 @@
+$types: 'primary', 'success', 'info', 'warning', 'danger', 'error';
+
 :root {
-  --primary: var(--el-color-primary);
+  @each $type in $types {
+    --#{$type}: var(--el-color-#{$type});
+    --#{$type}-bgc: var(--el-color-#{$type}-light-9);
+  }
   --scrollbar-thumb-color: rgb(144 147 153 / 30%);
   --bgc-code: var(--el-fill-color-lighter);
   --bgc-table-header: var(--el-fill-color);

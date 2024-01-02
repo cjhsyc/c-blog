@@ -1,8 +1,8 @@
 import markdownItContainer from 'markdown-it-container'
-import markdownIt from 'markdown-it'
+import type markdownIt from 'markdown-it'
 import { store } from '../../store'
 
-const regex = /^(success|info|warning|danger)(?:\s+)?(.*)?$/
+const regex = /^(success|info|warning|danger|error)(?:\s+)?(.*)?$/
 
 export const container = (md: markdownIt) => {
   md.use(markdownItContainer, 'msgContainer', {

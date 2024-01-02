@@ -12,7 +12,7 @@ defineProps({
     default: ''
   },
   type: {
-    type: String as PropType<'success' | 'info' | 'warning' | 'danger'>,
+    type: String as PropType<'success' | 'info' | 'warning' | 'danger' | 'error'>,
     default: 'info'
   }
 })
@@ -23,19 +23,20 @@ defineProps({
   border-radius: 4px;
   padding: 10px 16px;
   margin: 14px 0;
-  border-left: 4px solid var(--info);
-  background-color: var(--info-plain-bg);
+  border-left: 4px solid var(--primary);
+  background-color: var(--primary-bgc);
   &.success {
     border-left: 4px solid var(--success);
-    background-color: var(--success-plain-bg);
+    background-color: var(--success-bgc);
   }
   &.warning {
     border-left: 4px solid var(--warning);
-    background-color: var(--warning-plain-bg);
+    background-color: var(--warning-bgc);
   }
-  &.danger {
+  &.danger,
+  &.error {
     border-left: 4px solid var(--danger);
-    background-color: var(--danger-plain-bg);
+    background-color: var(--danger-bgc);
   }
   .title {
     font-size: larger;
