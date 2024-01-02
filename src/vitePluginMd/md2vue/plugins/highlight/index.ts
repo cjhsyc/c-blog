@@ -4,10 +4,7 @@ import hljs from 'highlight.js'
 import { store } from '../../store'
 
 export const highlight = (str: string, lang: string, md: markdownIt) => {
-  if (!store.importStrObj[store.currFile]) {
-    store.importStrObj[store.currFile] = new Set()
-  }
-  store.importStrObj[store.currFile].add('import CodeBlock from "@/components/codeBlock/CodeBlock.vue"')
+  store.importStr.add('import CodeBlock from "@/components/codeBlock/CodeBlock.vue"')
   if (lang === 'vue') {
     lang = 'html'
   }

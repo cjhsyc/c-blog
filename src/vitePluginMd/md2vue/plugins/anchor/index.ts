@@ -9,10 +9,7 @@ export const anchor = (md: markdownIt) => {
     tabIndex: false,
     permalink: (slug, opts, state, idx) => {
       const token = state.tokens[idx]
-      if (!store.anchorsObj[state.env.file]) {
-        store.anchorsObj[state.env.file] = []
-      }
-      store.anchorsObj[state.env.file].push({
+      store.anchors.push({
         tag: token.tag as Anchor['tag'],
         slug,
         content: state.tokens[idx + 1].content

@@ -30,12 +30,12 @@ export const md2vue = (markdown: string, file: string) => {
 
 <script setup lang="ts">
 import { useAnchor } from '@/hooks/anchor'
-${store.importStrObj[file] ? `${[...store.importStrObj[file]].join('\n')}` : ''}
+${[...store.importStr].join('\n')}
 ${store.scriptSetupContent}
 
 const { setAnchors } = useAnchor()
 onBeforeMount(() => {
-  setAnchors(${JSON.stringify(store.anchorsObj[file] || [])})
+  setAnchors(${JSON.stringify(store.anchors)})
 })
 </script>
 

@@ -13,10 +13,7 @@ export const container = (md: markdownIt) => {
       const token = tokens[idx]
       if (token.nesting === 1) {
         const m = token.info.trim().match(regex)
-        if (!store.importStrObj[store.currFile]) {
-          store.importStrObj[store.currFile] = new Set()
-        }
-        store.importStrObj[store.currFile].add(
+        store.importStr.add(
           'import MsgContainer from "@/components/msgContainer/MsgContainer.vue"'
         )
         // 开始标签

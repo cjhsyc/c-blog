@@ -3,16 +3,18 @@ import type { Anchor } from '@/types/anchor'
 export const store = {
   /** 当前正在解析的md文件路径 */
   currFile: '',
-  /** 各md生成的vue中的import语句 */
-  importStrObj: {} as Record<string, Set<string>>,
-  /** 各md文件的锚点数据 */
-  anchorsObj: {} as Record<string, Anchor[]>,
+  /** 生成的vue中的import语句 */
+  importStr: new Set<string>(),
+  /** 文件的锚点数据 */
+  anchors: [] as Anchor[],
+  /** style标签列表 */
   styleBlockList: [] as string[],
+  /** scriptSetup标签内容 */
   scriptSetupContent: '',
   reset(file: string) {
     this.currFile = file
-    Reflect.deleteProperty(this.importStrObj, file)
-    Reflect.deleteProperty(this.anchorsObj, file)
+    this.importStr = new Set()
+    this.anchors = []
     this.styleBlockList = []
     this.scriptSetupContent = ''
   }
