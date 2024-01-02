@@ -1,5 +1,5 @@
 import markdownItAnchor from 'markdown-it-anchor'
-import markdownIt from 'markdown-it'
+import type markdownIt from 'markdown-it'
 import type { Anchor } from '@/types/anchor'
 import { store } from '../../store'
 

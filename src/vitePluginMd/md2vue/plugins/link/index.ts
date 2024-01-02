@@ -1,5 +1,5 @@
 // 自定义 超连接 的渲染
-import markdownIt from 'markdown-it'
+import type markdownIt from 'markdown-it'
 import { store } from '../../store'
 
 export const link = (md: markdownIt) => {

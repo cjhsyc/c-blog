@@ -1,4 +1,4 @@
-import markdownIt from 'markdown-it'
+import type markdownIt from 'markdown-it'
 
 export const table = (md: markdownIt) => {
   md.renderer.rules.table_open = (tokens, idx, options, env, self) => {

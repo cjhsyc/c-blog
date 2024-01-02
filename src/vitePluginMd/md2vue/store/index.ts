@@ -7,9 +7,13 @@ export const store = {
   importStrObj: {} as Record<string, Set<string>>,
   /** 各md文件的锚点数据 */
   anchorsObj: {} as Record<string, Anchor[]>,
+  styleBlockList: [] as string[],
+  scriptSetupContent: '',
   reset(file: string) {
     this.currFile = file
     Reflect.deleteProperty(this.importStrObj, file)
     Reflect.deleteProperty(this.anchorsObj, file)
+    this.styleBlockList = []
+    this.scriptSetupContent = ''
   }
 }

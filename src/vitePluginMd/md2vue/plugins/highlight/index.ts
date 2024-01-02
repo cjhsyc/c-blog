@@ -1,5 +1,5 @@
 // 代码高亮
-import markdownIt from 'markdown-it'
+import type markdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import { store } from '../../store'
 

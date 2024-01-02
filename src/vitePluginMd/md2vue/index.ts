@@ -1,16 +1,6 @@
 import markdownIt from 'markdown-it'
 import { store } from './store'
-import {
-  highlight,
-  routeTag,
-  styleTags,
-  scriptSetupTag,
-  codeInline,
-  link,
-  anchor,
-  container,
-  table
-} from './plugins'
+import { highlight, codeInline, link, anchor, container, table, htmlBlock } from './plugins'
 
 const md: markdownIt = markdownIt({
   html: true, // 解析markdown文本中的html标签
@@ -24,19 +14,11 @@ link(md)
 anchor(md)
 container(md)
 table(md)
+htmlBlock(md)
 
 /** 将markdown文本转换为vue文本 */
 export const md2vue = (markdown: string, file: string) => {
   store.reset(file)
-
-  markdown = routeTag(markdown)
-
-  const { newMarkdown, styleTagList } = styleTags(markdown)
-  markdown = newMarkdown
-
-  const { newMarkdown: newMarkdown1, scriptSetupContent } = scriptSetupTag(markdown)
-  markdown = newMarkdown1
-
   // 使用markdown-it将markdown文本转换为html
   const html = md.render(markdown, { file })
   return `
@@ -49,8 +31,7 @@ export const md2vue = (markdown: string, file: string) => {
 <script setup lang="ts">
 import { useAnchor } from '@/hooks/anchor'
 ${store.importStrObj[file] ? `${[...store.importStrObj[file]].join('\n')}` : ''}
-
-${scriptSetupContent}
+${store.scriptSetupContent}
 
 const { setAnchors } = useAnchor()
 onBeforeMount(() => {
@@ -62,6 +43,6 @@ onBeforeMount(() => {
 @use '@/vitePluginMd/md2vue/style.scss' as *;
 </style>
 
-${styleTagList.join('\n')}
+${store.styleBlockList.join('\n')}
 `
 }

@@ -1,5 +1,5 @@
 // 自定义 `xxx`（行内代码） 的渲染
-import markdownIt from 'markdown-it'
+import type markdownIt from 'markdown-it'
 
 export const codeInline = (md: markdownIt) => {
   md.renderer.rules.code_inline = (tokens, idx) => {
