@@ -27,9 +27,15 @@ menuRoutes.sort(
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    redirect: '/home'
+  },
+  {
+    path: '/source',
     redirect: menuRoutes[0]?.path
   },
   ...menuRoutes
 ]
+
+console.log(routes)
 
 export { routes, menuRoutes }

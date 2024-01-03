@@ -41,8 +41,31 @@ export default defineConfig({
     }),
     Markdown(),
     Pages({
-      dirs: 'src/source',
-      extensions: ['md']
+      extensions: ['md', 'vue'],
+      dirs: [
+        {
+          dir: 'src/views/home',
+          baseRoute: 'home',
+          filePattern: 'index.vue'
+        },
+        {
+          dir: 'src/views/source',
+          baseRoute: 'source',
+          filePattern: '**/*.md'
+        }
+      ],
+      extendRoute: (route) => {
+        if (route.path.startsWith('/source')) {
+          return {
+            ...route,
+            meta: {
+              ...(route.meta || {}),
+              layout: 'SourceLayout'
+            }
+          }
+        }
+        return route
+      }
     }),
     ClientSideLayout({
       defaultLayout: 'Default', // 默认布局使用 ‘src/layouts/Default.vue’

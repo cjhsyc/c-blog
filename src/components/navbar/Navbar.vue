@@ -3,36 +3,27 @@
   <div class="navbar">
     <div class="menu">
       <div
-        v-for="item in menuList"
-        :key="item.menuName"
+        v-for="(item, index) in navConfig"
+        :key="index"
         class="menu-item"
-        :class="{ active: item.menuName === currNavItem }"
-        @click="handleClick(item.menuName)"
+        :class="{ active: route.path.startsWith(item.path) }"
+        @click="handleClick(item.path)"
       >
-        {{ item.menuName }}
+        {{ item.title }}
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useMenu } from '@/hooks/menu'
+import { navConfig } from '@/config/nav'
 
-const { menuList, currNavItem, currPath } = useMenu()
+const router = useRouter()
+const route = useRoute()
 
-const handleClick = (menuName: string) => {
-  currNavItem.value = menuName
+const handleClick = (path: string) => {
+  router.push(path)
 }
-
-watch(
-  currPath,
-  (path) => {
-    currNavItem.value = path.split('/')[1]
-  },
-  {
-    immediate: true
-  }
-)
 </script>
 
 <style scoped lang="scss">
@@ -44,8 +35,8 @@ watch(
   font-size: 1.1rem;
   border-bottom: 1px solid var(--border-color);
   height: var(--navbar-height);
-  background-color: rgba(255, 255, 255, 1);
-  // backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
   .menu {
     display: flex;
     gap: 2rem;

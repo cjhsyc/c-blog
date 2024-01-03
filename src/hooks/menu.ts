@@ -44,8 +44,8 @@ export const useMenu = () => {
 /** 根据路由生成菜单数据 */
 const getMenuList = (routes: RouteRecordRaw[]) => {
   const menuList: MenuListItem[] = []
-  routes.forEach((route) => {
-    const paths = route.path.replace(/^\//, '').split('/')
+  routes.filter((route) => route.path.startsWith('/source')).forEach((route) => {
+    const paths = route.path.replace(/^\/source\//, '').split('/')
     paths.reduce((menuList, pathItem, index) => {
       let menuItem = menuList.find((menuItem) => {
         if (index === paths.length - 1) {

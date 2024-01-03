@@ -34,11 +34,11 @@ import { useMenu } from '@/hooks/menu'
 import type { MenuListItem } from '@/types/menu'
 
 const router = useRouter()
-const { currPath, currSubMenuList } = useMenu()
+const { currPath, menuList } = useMenu()
 
 /** 扁平化菜单项 */
 const flatMenuList = computed(() => {
-  return getFlatList(currSubMenuList.value)
+  return getFlatList(menuList.value)
 })
 
 const currItemIndex = computed(() => {

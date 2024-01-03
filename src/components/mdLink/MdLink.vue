@@ -1,5 +1,5 @@
 <template>
-  <el-link class="md-link" type="primary" @click="handleClick">
+  <el-link class="md-link" type="primary" :href="url" @click="handleClick">
     <slot />
     <el-icon v-if="isOutLink" class="md-link-icon"><OutLink /></el-icon>
   </el-link>
@@ -21,7 +21,8 @@ const isOutLink = computed(() => {
   return props.url.startsWith('http')
 })
 
-const handleClick = () => {
+const handleClick = (e: MouseEvent) => {
+  e.preventDefault()
   if (isOutLink.value) {
     window.open(props.url)
   } else if (props.url) {
