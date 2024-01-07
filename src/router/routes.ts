@@ -36,6 +36,4 @@ const routes: RouteRecordRaw[] = [
   ...menuRoutes
 ]
 
-console.log(routes)
-
 export { routes, menuRoutes }

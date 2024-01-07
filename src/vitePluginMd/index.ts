@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import { md2vue } from './md2vue'
+import { md2vue, searchContent } from './md2vue'
 
 /** vite插件：将markdown文件转为vue */
 export default (): Plugin => {
@@ -25,6 +25,23 @@ export default (): Plugin => {
         ctx.read = async function () {
           return md2vue(await readSource(), ctx.file)
         }
+      }
+    },
+    resolveId(id) {
+      if (id === 'md:search') {
+        return `\0` + 'md:search'
+      }
+    },
+    load(id) {
+      if (id === '\0md:search') {
+        const documents = [...searchContent.entries()].map(([file, data], index) => {
+          return {
+            id: index,
+            file,
+            ...data
+          }
+        })
+        return `export const documents = ${JSON.stringify(documents)}`
       }
     }
   }

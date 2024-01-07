@@ -21,6 +21,7 @@ export const md2vue = (markdown: string, file: string) => {
   store.reset(file)
   // 使用markdown-it将markdown文本转换为html
   const html = md.render(markdown, { file })
+  store.setSearchContent()
   return `
 <template>
   <div class="markdown-container">
@@ -46,3 +47,5 @@ onBeforeMount(() => {
 ${store.styleBlockList.join('\n')}
 `
 }
+
+export const searchContent = store.searchContent

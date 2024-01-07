@@ -51,7 +51,7 @@ nvm npm_mirror https://npmmirror.com/mirrors/npm/
 
   ```
   npm config set prefix "D:/nodejs/npm_global"
-  npm config set cache "D:/nodeks/npm_cache"
+  npm config set cache "D:/nodejs/npm_cache"
   ```
 
 # nrm

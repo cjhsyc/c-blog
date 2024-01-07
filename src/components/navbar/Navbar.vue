@@ -12,11 +12,13 @@
         {{ item.title }}
       </div>
     </div>
+    <div class="search"><DocSearch /></div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { navConfig } from '@/config/nav'
+import DocSearch from '@/components/docSearch/DocSearch.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -31,7 +33,7 @@ const handleClick = (path: string) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0 1rem;
   font-size: 1.1rem;
   border-bottom: 1px solid var(--border-color);
   height: var(--navbar-height);

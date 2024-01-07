@@ -11,11 +11,20 @@ export const store = {
   styleBlockList: [] as string[],
   /** scriptSetup标签内容 */
   scriptSetupContent: '',
+  /** 文档搜索内容 */
+  searchContent: new Map<string, { title: string; path: string; anchors: string }>(),
   reset(file: string) {
     this.currFile = file
     this.importStr = new Set()
     this.anchors = []
     this.styleBlockList = []
     this.scriptSetupContent = ''
+  },
+  setSearchContent() {
+    this.searchContent.set(this.currFile, {
+      title: this.currFile.match(/\/source\/(.+).md$/)?.[1] || '',
+      path: this.currFile.match(/(\/source\/(.+)).md$/)?.[1] || '',
+      anchors: store.anchors.map((anchor) => anchor.content).join('\n')
+    })
   }
 }

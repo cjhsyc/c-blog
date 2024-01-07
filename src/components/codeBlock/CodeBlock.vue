@@ -18,7 +18,7 @@ const props = defineProps({
 })
 
 const handleCopy = () => {
-  navigator.clipboard.writeText(props.code).then(() => {
+  navigator.clipboard?.writeText(props.code).then(() => {
     ElMessage.success('复制成功')
   })
 }
@@ -34,11 +34,11 @@ const handleCopy = () => {
   pre {
     margin: 0;
     .hljs {
-    font-family: var(--code-font-family);
-    background-color: var(--bgc-code);
-    color: var(--text-color);
-    @include scrollbar();
-  }
+      font-family: var(--code-font-family);
+      background-color: var(--bgc-code);
+      color: var(--text-color);
+      @include scrollbar();
+    }
   }
   .copy {
     display: none;
