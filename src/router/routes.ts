@@ -14,15 +14,15 @@ const orderNoObj = menuSortConfig.reduce(
   {} as Record<string, number>
 )
 
+// 按照配置的菜单顺序排序
+generatedRoutes.sort(
+  (routeA, routeB) =>
+    (orderNoObj[routeA.name as string] ?? menuSortConfig.length) -
+    (orderNoObj[routeB.name as string] ?? menuSortConfig.length)
+)
+
 // 给所有路由套一层布局
 const menuRoutes = setupLayouts(generatedRoutes)
-
-// 按照配置的菜单顺序排序
-menuRoutes.sort(
-  (routeA, routeB) =>
-    (orderNoObj[routeA.path] ?? menuSortConfig.length) -
-    (orderNoObj[routeB.path] ?? menuSortConfig.length)
-)
 
 const routes: RouteRecordRaw[] = [
   {

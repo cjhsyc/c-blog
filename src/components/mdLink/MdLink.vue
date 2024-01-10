@@ -37,6 +37,7 @@ const handleClick = (e: MouseEvent) => {
   vertical-align: baseline;
   .md-link-icon {
     margin-left: 2px;
+    margin-top: 2px;
   }
 }
 </style>

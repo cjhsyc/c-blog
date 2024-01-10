@@ -20,7 +20,7 @@ const currSubMenuList = computed(
 export const useMenu = () => {
   const route = useRoute()
   /** 当前路径 */
-  const currPath = computed(() => route.path)
+  const currPath = computed(() => route.path.toLowerCase())
 
   onBeforeMount(() => {
     if (!flag.value) {
@@ -44,32 +44,34 @@ export const useMenu = () => {
 /** 根据路由生成菜单数据 */
 const getMenuList = (routes: RouteRecordRaw[]) => {
   const menuList: MenuListItem[] = []
-  routes.filter((route) => route.path.startsWith('/source')).forEach((route) => {
-    const paths = route.path.replace(/^\/source\//, '').split('/')
-    paths.reduce((menuList, pathItem, index) => {
-      let menuItem = menuList.find((menuItem) => {
-        if (index === paths.length - 1) {
-          return menuItem.path === route.path
-        } else {
-          return menuItem.menuName === pathItem
-        }
-      })
-      if (!menuItem) {
-        if (index === paths.length - 1) {
-          menuItem = {
-            menuName: (route.children?.[0].meta?.title as string) || pathItem,
-            path: route.path
+  routes
+    .filter((route) => route.path.startsWith('/source'))
+    .forEach((route) => {
+      const names = (route.children?.[0].name as string).replace(/^source\//, '').split('/')
+      names.reduce((menuList, nameItem, index) => {
+        let menuItem = menuList.find((menuItem) => {
+          if (index === names.length - 1) {
+            return menuItem.path === route.path
+          } else {
+            return menuItem.menuName === nameItem
           }
-        } else {
-          menuItem = {
-            menuName: pathItem,
-            submenuList: []
+        })
+        if (!menuItem) {
+          if (index === names.length - 1) {
+            menuItem = {
+              menuName: (route.children?.[0].meta?.title as string) || nameItem,
+              path: route.path
+            }
+          } else {
+            menuItem = {
+              menuName: nameItem,
+              submenuList: []
+            }
           }
+          menuList.push(menuItem)
         }
-        menuList.push(menuItem)
-      }
-      return menuItem.submenuList || []
-    }, menuList)
-  })
+        return menuItem.submenuList || []
+      }, menuList)
+    })
   return menuList
 }

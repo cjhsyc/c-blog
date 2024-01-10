@@ -65,7 +65,8 @@ export default defineConfig({
           }
         }
         return route
-      }
+      },
+      routeNameSeparator: '/'
     }),
     ClientSideLayout({
       defaultLayout: 'Default', // 默认布局使用 ‘src/layouts/Default.vue’
