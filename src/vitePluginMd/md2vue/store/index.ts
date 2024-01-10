@@ -12,7 +12,7 @@ export const store = {
   /** scriptSetup标签内容 */
   scriptSetupContent: '',
   /** 文档搜索内容 */
-  searchContent: new Map<string, { title: string; path: string; anchors: string }>(),
+  searchContent: new Map<string, { title: string; path: string; anchors: string; text: string }>(),
   reset(file: string) {
     this.currFile = file
     this.importStr = new Set()
@@ -20,11 +20,14 @@ export const store = {
     this.styleBlockList = []
     this.scriptSetupContent = ''
   },
-  setSearchContent() {
+  /** 设置可查询内容 */
+  setSearchContent(html: string) {
+    const m = this.currFile.match(/(\/source\/(.+)).md$/)
     this.searchContent.set(this.currFile, {
-      title: this.currFile.match(/\/source\/(.+).md$/)?.[1] || '',
-      path: this.currFile.match(/(\/source\/(.+)).md$/)?.[1] || '',
-      anchors: store.anchors.map((anchor) => anchor.content).join('\n')
+      title: m?.[2] || '',
+      path: m?.[1] || '',
+      anchors: store.anchors.map((anchor) => anchor.content).join('\n'),
+      text: html.replace(/<[\s\S]+?>/g,'')
     })
   }
 }

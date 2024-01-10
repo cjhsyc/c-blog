@@ -33,9 +33,8 @@
           v-for="item in searchResults"
           :key="item.id"
           @click="handleClick(item.path)"
-        >
-          {{ item.title }}
-        </div>
+          v-html="renderHtml(item)"
+        />
       </div>
       <div class="empty" v-if="searchResults.length === 0">没有搜索结果</div>
     </el-scrollbar>
@@ -45,7 +44,7 @@
 <script setup lang="ts">
 import { useSearch } from '@/hooks/search'
 import { Search } from '@element-plus/icons-vue'
-import type { SearchResult } from 'minisearch'
+import type { SearchResult } from '@/types/search'
 
 const router = useRouter()
 const showDialog = ref(false)
@@ -55,7 +54,36 @@ const searchResults = ref<SearchResult[]>([])
 
 const handleSearch = () => {
   const results = search(query.value)
+  console.log(results)
   searchResults.value = results
+}
+
+const renderHtml = (result: SearchResult) => {
+  let titleMatch = ''
+  let anchorMatch = ''
+  let anchorText = ''
+  Object.entries(result.match).forEach(([matchText, fieldNames]) => {
+    if (!titleMatch && fieldNames.includes('title')) {
+      titleMatch = matchText
+    }
+    if (!anchorMatch && fieldNames.includes('anchors')) {
+      anchorMatch = matchText
+      anchorText = result.anchors.split('\n').find((anchor) => anchor.includes(anchorMatch)) || ''
+    }
+  })
+  return `<strong>${result.title.replace(
+    titleMatch,
+    `<span class="match">${titleMatch}</span>`
+  )}</strong>
+  ${
+    anchorText
+      ? `<span>${anchorText.replace(
+          anchorMatch,
+          `<span class="match">${anchorMatch}</span>`
+        )}</span>`
+      : ''
+  }
+  `
 }
 
 const handleClick = (path: string) => {
@@ -85,18 +113,29 @@ defineExpose({
   .search-result {
     user-select: none;
     .result-item {
-      height: 40px;
       border-radius: 4px;
       border: 2px solid transparent;
       background-color: var(--info-bgc);
       display: flex;
-      align-items: center;
-      padding: 0 10px;
+      flex-direction: column;
+      gap: 6px;
+      align-items: start;
+      padding: 10px;
+      cursor: pointer;
       &:hover {
         border: 2px solid var(--primary);
+        background-color: var(--primary-bgc);
       }
       & + .result-item {
         margin-top: 10px;
+      }
+      :deep() {
+        strong {
+          font-size: larger;
+        }
+        .match {
+          color: var(--primary);
+        }
       }
     }
   }

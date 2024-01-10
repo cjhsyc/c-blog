@@ -87,3 +87,4 @@ const handleClick = (path?: string) => {
   }
 }
 </style>
+@/types
