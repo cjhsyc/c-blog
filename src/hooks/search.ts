@@ -16,21 +16,18 @@ const suffixes = (term: string, minLength: number) => {
   return tokens
 }
 
-const segmenterCN = new Intl.Segmenter('zh', { granularity: 'sentence' })
-
 const miniSearch = new MiniSearch({
   fields: ['title', 'anchors', 'text'],
   storeFields: ['file', 'path', 'title', 'anchors', 'text'],
   tokenize: (string, fieldName) => {
     if (fieldName === 'text') {
-      const sentences = Array.from(segmenterCN.segment(string), (s) => s.segment.replace(/\n$/, ''))
-      return sentences
+      return MiniSearch.getDefault('tokenize')(string)
     } else {
       return string.split('\n')
     }
   },
   processTerm: (term, fieldName) => {
-    if (fieldName !== 'text') {
+    if (fieldName && fieldName !== 'text') {
       return suffixes(term, 2)
     }
     return term

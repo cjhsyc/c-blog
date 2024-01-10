@@ -54,7 +54,6 @@ const searchResults = ref<SearchResult[]>([])
 
 const handleSearch = () => {
   const results = search(query.value)
-  console.log(results)
   searchResults.value = results
 }
 
