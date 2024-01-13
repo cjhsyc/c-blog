@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
-    "element-plus": "^2.5.0",
+    "element-plus": "^2.5.1",
     "highlight.js": "^11.9.0",
     "minisearch": "^6.3.0",
-    "vue": "^3.4.7",
+    "vue": "^3.4.12",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
@@ -31,12 +31,12 @@
     "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.56.0",
-    "eslint-plugin-vue": "^9.19.2",
+    "eslint-plugin-vue": "^9.20.1",
     "markdown-it": "^14.0.0",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-container": "^4.0.0",
     "npm-run-all2": "^6.1.1",
-    "prettier": "^3.1.1",
+    "prettier": "^3.2.1",
     "sass": "^1.69.7",
     "typescript": "~5.3.3",
     "unplugin-auto-import": "^0.17.3",
