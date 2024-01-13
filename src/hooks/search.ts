@@ -2,40 +2,25 @@ import MiniSearch from 'minisearch'
 import { documents } from 'md:search'
 import type { SearchResult } from '@/types/search'
 
-const suffixes = (term: string, minLength: number) => {
-  if (term === null) {
-    return
-  }
-
-  const tokens = []
-
-  for (let i = 0; i <= term.length - minLength; i++) {
-    tokens.push(term.slice(i))
-  }
-
-  return tokens
-}
+const segmenterCN = Intl.Segmenter && new Intl.Segmenter('zh', { granularity: 'word' })
 
 const miniSearch = new MiniSearch({
   fields: ['title', 'anchors', 'text'],
   storeFields: ['file', 'path', 'title', 'anchors', 'text'],
   tokenize: (string, fieldName) => {
-    if (fieldName === 'text') {
-      return MiniSearch.getDefault('tokenize')(string)
+    if (segmenterCN) {
+      return Array.from(segmenterCN.segment(string))
+        .filter((s) => s.isWordLike)
+        .map((s) => s.segment)
     } else {
-      return string.split('\n')
+      return MiniSearch.getDefault('tokenize')(string, fieldName)
     }
   },
-  processTerm: (term, fieldName) => {
-    if (fieldName && fieldName !== 'text') {
-      return suffixes(term, 2)
-    }
-    return term
-  },
+  processTerm: (term) => term,
   searchOptions: {
-    fuzzy: true,
+    fuzzy: 0.25,
     prefix: true,
-    boost: { title: 6, anchors: 4, text: 1 }
+    boost: { title: 10, anchors: 8, text: 1 }
   }
 })
 

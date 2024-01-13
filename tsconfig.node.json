@@ -7,7 +7,7 @@
     "nightwatch.conf.*",
     "playwright.config.*",
     "src/vitePluginMd/**/*",
-    "src/types/**/*.ts"
+    "src/types/**/*"
   ],
   "compilerOptions": {
     "composite": true,

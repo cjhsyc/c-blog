@@ -4,6 +4,13 @@
 /// <reference types="unplugin-icons/types/vue" />
 
 declare module 'md:search' {
-  const documents: { id: number; file: string; title: string; path: string; anchors: string }[]
+  const documents: {
+    id: number
+    file: string
+    title: string
+    path: string
+    anchors: string
+    text: string
+  }[]
   export { documents }
 }

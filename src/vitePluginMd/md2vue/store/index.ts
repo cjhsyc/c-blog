@@ -27,7 +27,7 @@ export const store = {
       title: m?.[2] || '',
       path: m?.[1] || '',
       anchors: store.anchors.map((anchor) => anchor.content).join('\n'),
-      text: html.replace(/<[\s\S]+?>/g,'')
+      text: html.replace(/<h[1-6][\s\S]*?>[\s\S]*?<\/h[1-6]>|<[\s\S]*?>/g, '') // 移除 h标签(包括内容) 和 其他标签(保留文本内容)
     })
   }
 }
