@@ -60,5 +60,5 @@ const handleCopy = () => {
 }
 </style>
 <style lang="scss">
-@use 'highlight.js/styles/xcode.css' as *;
+@use 'highlight.js/styles/github.css' as *;
 </style>

@@ -8,6 +8,7 @@ $types: 'primary', 'success', 'info', 'warning', 'danger', 'error';
   --scrollbar-thumb-color: rgb(144 147 153 / 30%);
   --bgc-code: var(--el-fill-color-lighter);
   --bgc-table-header: var(--el-fill-color);
+  --bgc-selection: rgb(var(--el-color-primary-rgb), 0.2);
   --border-color: var(--el-border-color);
   --text-color: var(--el-text-color-primary);
   --placeholder-color: var(--el-text-color-placeholder);
