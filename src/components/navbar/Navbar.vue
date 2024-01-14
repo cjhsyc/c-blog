@@ -33,7 +33,7 @@ const handleClick = (path: string) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 2rem;
   font-size: 1.1rem;
   border-bottom: 1px solid var(--border-color);
   height: var(--navbar-height);
