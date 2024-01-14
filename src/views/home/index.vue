@@ -11,7 +11,7 @@ import NumberPuzzle from '@/components/numberPuzzle/NumberPuzzle.vue'
 <style scoped lang='scss'>
 .home {
   display: flex;
-  align-items: center;
+  padding-top: 15vh;
   justify-content: center;
   height: calc(100vh - var(--navbar-height));
 }
