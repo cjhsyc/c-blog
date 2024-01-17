@@ -1,7 +1,11 @@
 <template>
-  <el-link class="md-link" type="primary" :href="url" @click="handleClick">
-    <slot />
-    <el-icon v-if="isOutLink" class="md-link-icon"><OutLink /></el-icon>
+  <el-link class="md-link" type="primary" :href="url" :underline="false" @click="handleClick">
+    <span>
+      <span class="link-text">
+        <slot />
+        <el-icon v-if="isOutLink" class="md-link-icon"><OutLink /></el-icon>
+      </span>
+    </span>
   </el-link>
 </template>
 
@@ -35,9 +39,21 @@ const handleClick = (e: MouseEvent) => {
 .md-link {
   font-size: inherit;
   vertical-align: baseline;
-  .md-link-icon {
-    margin-left: 2px;
-    margin-top: 2px;
+  &:hover {
+    color: var(--primary);
+  }
+  .link-text {
+    background: linear-gradient(var(--primary), var(--primary)) no-repeat bottom right;
+    background-size: 0 1px;
+    transition: background-size 0.5s linear;
+    &:hover {
+      background-size: 100% 1px;
+      background-position-x: left;
+    }
+    .md-link-icon {
+      margin-left: 2px;
+      vertical-align: middle;
+    }
   }
 }
 </style>
