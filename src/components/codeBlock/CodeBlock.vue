@@ -1,14 +1,19 @@
 <template>
   <div class="code-block">
     <pre><code class="hljs"><slot /></code></pre>
-    <div class="copy" @click="handleCopy">
-      <el-icon :size="16"> <CopyDocument /> </el-icon>
+    <div class="copy" :class="{ success: copySuccess }" @click="handleCopy">
+      <el-icon :size="16">
+        <Transition name="icon">
+          <CopyDocument v-if="!copySuccess" />
+          <Select v-else />
+        </Transition>
+      </el-icon>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { CopyDocument } from '@element-plus/icons-vue'
+import { CopyDocument, Select } from '@element-plus/icons-vue'
 
 const props = defineProps({
   code: {
@@ -17,9 +22,16 @@ const props = defineProps({
   }
 })
 
+const copySuccess = ref(false)
+let timer: NodeJS.Timeout
+
 const handleCopy = () => {
   navigator.clipboard?.writeText(props.code).then(() => {
-    ElMessage.success('复制成功')
+    copySuccess.value = true
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      copySuccess.value = false
+    }, 1000)
   })
 }
 </script>
@@ -51,6 +63,15 @@ const handleCopy = () => {
     top: 0;
     cursor: pointer;
     background-color: var(--bgc-code);
+    &.success {
+      display: flex;
+      .icon-enter-active {
+        transition: transform 0.15s linear;
+      }
+      .icon-enter-from {
+        transform: scale(0);
+      }
+    }
   }
   &:hover {
     .copy {
