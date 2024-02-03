@@ -6,14 +6,18 @@
     "cypress.config.*",
     "nightwatch.conf.*",
     "playwright.config.*",
-    "src/vitePluginMd/**/*",
-    "src/types/**/*"
+    "src/**/*",
+    "*.d.ts"
   ],
   "compilerOptions": {
     "composite": true,
     "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }
