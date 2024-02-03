@@ -11,10 +11,10 @@ export const highlight = (str: string, lang: string, md: markdownIt) => {
   if (lang && hljs.getLanguage(lang)) {
     return (
       '<CodeBlock>' +
-      hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+      hljs.highlight(str, { language: lang, ignoreIllegals: true }).value.replace(/{/g, '&#123;').replace(/}/g, '&#125;') +
       '</CodeBlock>'
     )
   }
   // md.utils.escapeHtml: 会转义这四个字符: & < > "
-  return '<CodeBlock>' + md.utils.escapeHtml(str) + '</CodeBlock>'
+  return '<CodeBlock>' + md.utils.escapeHtml(str).replace(/{/g, '&#123;').replace(/}/g, '&#125;') + '</CodeBlock>'
 }

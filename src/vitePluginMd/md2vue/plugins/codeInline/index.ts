@@ -5,6 +5,6 @@ export const codeInline = (md: markdownIt) => {
   md.renderer.rules.code_inline = (tokens, idx) => {
     const token = tokens[idx]
     const code = token.content
-    return `<code class="code-inline">${md.utils.escapeHtml(code)}</code>`
+    return `<code class="code-inline">${md.utils.escapeHtml(code).replace(/{/g, '&#123;').replace(/}/g, '&#125;')}</code>`
   }
 }
