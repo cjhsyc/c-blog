@@ -15,6 +15,7 @@ import { ClientSideLayout } from 'vite-plugin-vue-layouts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/c-blog/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

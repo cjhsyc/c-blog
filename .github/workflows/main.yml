@@ -1,5 +1,5 @@
 # 将静态内容部署到 GitHub Pages 的简易工作流程
-name: Deploy static content to Pages
+name: Deploy c-blog
 
 on:
   # 仅在推送到默认分支时运行。
@@ -35,8 +35,10 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
+      - name: Install pnpm
+        run: npm install pnpm -g
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
       - name: Build
         run: npm run build
       - name: Setup Pages
